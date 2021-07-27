@@ -1,0 +1,6 @@
+scripts:
+
+  test:
+    cmd: deno test -Ar
+    desc: Runs the tests
+    gitHook: pre-push
