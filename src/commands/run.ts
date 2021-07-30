@@ -3,8 +3,8 @@ import { MappingConfig } from "../mapping_config.ts";
 import { BaseCommand } from "./base_command.ts";
 
 export class RunCommand extends BaseCommand {
-  constructor(configData: MappingConfig | MappingConfig[] | null) {
-    super(configData);
+  constructor() {
+    super();
 
     this.description("Run scripts");
   }

@@ -1,4 +1,5 @@
 import { Command, mergeWith } from "../../deps.ts";
+import { loadConfig } from "../load_config.ts";
 import { MappingConfig, Platform } from "../mapping_config.ts";
 
 export abstract class BaseCommand extends Command {
@@ -8,18 +9,8 @@ export abstract class BaseCommand extends Command {
 
   abstract ready(configData: MappingConfig): Promise<void> | void;
 
-  constructor(configData: MappingConfig | MappingConfig[] | null) {
+  constructor() {
     super();
-
-    if (!configData) {
-      throw new Error("mapping.ts is not found!");
-    }
-
-    if (configData instanceof Array) {
-      this.mappings.push(...configData);
-    } else {
-      this.mappings.push(configData);
-    }
 
     this.option("-n, --name <name>", "target name (.name field)")
       .option(
@@ -28,6 +19,18 @@ export abstract class BaseCommand extends Command {
       )
       .option("-h, --hostname <hostname>", "target hostname")
       .action(async (options) => {
+        const configData = await loadConfig();
+
+        if (!configData) {
+          throw new Error("mapping.ts is not found!");
+        }
+
+        if (configData instanceof Array) {
+          this.mappings.push(...configData);
+        } else {
+          this.mappings.push(configData);
+        }
+
         const name = options.name;
         const platform: Platform = this.platform = options.platform ??
           Deno.build.os;

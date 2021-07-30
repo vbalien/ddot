@@ -4,8 +4,8 @@ import { getDdotPath, getHomePath } from "../get_ddot_path.ts";
 import { BaseCommand } from "./base_command.ts";
 
 export class LinkCommand extends BaseCommand {
-  constructor(configData: MappingConfig | MappingConfig[] | null) {
-    super(configData);
+  constructor() {
+    super();
 
     this.description("Link dotfiles");
   }
