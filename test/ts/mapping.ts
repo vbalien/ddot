@@ -5,8 +5,8 @@ export default <MappingConfig[]> [
     name: "home",
 
     guards: {
-      hostname: "myhome",
-      platform: "win32",
+      hostname: "home",
+      platform: "windows",
     },
 
     link: {
@@ -14,12 +14,9 @@ export default <MappingConfig[]> [
       "test2": "test1",
     },
 
-    preScripts: [
-      'echo "$DDOT_HOSTNAME $DDOT_PLATFORM pre works!"',
-    ],
-
-    postScripts: [
-      "echo 'post works!'",
+    scripts: [
+      'echo "$DDOT_NAME $DDOT_PLATFORM"',
+      "echo works!",
     ],
   },
 
@@ -27,8 +24,8 @@ export default <MappingConfig[]> [
     name: "laptop",
 
     guards: {
-      hostname: "mylaptop",
-      platform: ["darwin", "win32"],
+      hostname: "laptop",
+      platform: ["darwin", "windows"],
     },
 
     link: {
@@ -36,12 +33,9 @@ export default <MappingConfig[]> [
       "test2": "test1",
     },
 
-    preScripts: [
-      'echo "$DDOT_NAME $DDOT_PLATFORM pre works!"',
-    ],
-
-    postScripts: [
-      "echo 'laptop post works!'",
+    scripts: [
+      'echo "$DDOT_NAME $DDOT_PLATFORM"',
+      "echo works!",
     ],
   },
 
@@ -49,7 +43,7 @@ export default <MappingConfig[]> [
     name: "server",
 
     guards: {
-      hostname: "myserver",
+      hostname: "server",
       platform: "linux",
     },
 
@@ -58,12 +52,16 @@ export default <MappingConfig[]> [
       "test2": "test1",
     },
 
-    preScripts: [
-      'echo "$DDOT_NAME $DDOT_PLATFORM pre works!"',
+    scripts: [
+      'echo "$DDOT_NAME $DDOT_PLATFORM"',
+      "echo works!",
     ],
+  },
 
-    postScripts: [
-      "echo 'server post works!'",
-    ],
+  {
+    name: "desktop",
+    extends: "server",
+
+    scripts: ["echo desktop"],
   },
 ];

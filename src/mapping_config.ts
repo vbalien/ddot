@@ -1,4 +1,4 @@
-export type Platform = "darwin" | "win32" | "linux";
+export type Platform = "darwin" | "windows" | "linux";
 
 export interface MappingConfig {
   name: string;
@@ -7,7 +7,6 @@ export interface MappingConfig {
     platform?: Platform | Platform[];
   };
   link?: Record<string, string>;
-  preScripts?: string[];
-  postScripts?: string[];
+  scripts?: string[];
   extends?: string;
 }

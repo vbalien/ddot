@@ -1,6 +1,5 @@
 scripts:
-
   test:
-    cmd: deno test -Ar
+    cmd: deno test -Ar --unstable
     desc: Runs the tests
     gitHook: pre-push

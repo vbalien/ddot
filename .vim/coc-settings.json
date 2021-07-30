@@ -5,5 +5,8 @@
   "prettier.disableLanguages": [
     "typescript",
     "javascript"
-  ]
+  ],
+  "deno.suggest.imports.hosts": {
+    "https://deno.land/": true
+  }
 }
