@@ -21,7 +21,7 @@ export class ImportCommand extends Command {
         Deno.renameSync(target, linkTarget);
         Deno.symlinkSync(linkTarget, target);
         console.info(`Move: "${target}" -> "${linkTarget}"`);
-        console.info(`Link: "${linkTarget}" -> "${target}"`);
+        console.info(`Link: "${target}" -> "${linkTarget}"`);
         console.info(
           `Add following to link of mapping.ts :\n"${
             path.relative(getHomePath(), path.resolve(target))

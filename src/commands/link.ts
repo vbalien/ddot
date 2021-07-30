@@ -28,7 +28,7 @@ export class LinkCommand extends BaseCommand {
           Deno.renameSync(targetPath, targetPath + ".ddot.bak");
         }
 
-        console.log(`Link: "${targetPath}"`);
+        console.log(`Link: "${targetPath}" -> "${fromPath}"`);
         Deno.symlinkSync(fromPath, targetPath);
       }
     }
