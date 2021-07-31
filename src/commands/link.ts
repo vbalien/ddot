@@ -20,6 +20,11 @@ export class LinkCommand extends BaseCommand {
           throw new Error(`"${fromPath}" does not exist.`);
         }
 
+        const targetDir = path.dirname(targetPath);
+        if (!existsSync(targetDir)) {
+          Deno.mkdirSync(targetDir, { recursive: true });
+        }
+
         if (existsSync(targetPath)) {
           console.log(
             `"${targetPath}" does exist. move to "${targetPath +
