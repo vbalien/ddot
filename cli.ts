@@ -1,4 +1,4 @@
-import { DdotCommand } from "./src/commands/ddot.ts";
+import { DdotCommand } from "./src/commands/mod.ts";
 
 if (import.meta.main) {
   try {

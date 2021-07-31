@@ -7,8 +7,8 @@ import {
   test,
   TestSuite,
 } from "./dev_deps.ts";
-import { path } from "./deps.ts";
-import { getDdotPath, getHomePath } from "./src/get_ddot_path.ts";
+import { existsSync, path } from "./deps.ts";
+import { getHomePath } from "./src/get_ddot_path.ts";
 
 const tsWd = "./test/ts";
 const cliArgs = [
@@ -105,16 +105,16 @@ test(testSuite, "extends", async () => {
   );
 });
 
-test(testSuite, "import", async () => {
-  Deno.openSync(path.join(tsWd, "home/import_test"), {
+test(testSuite, "add/remove", async () => {
+  Deno.openSync(path.join(tsWd, "home/.import_test"), {
     write: true,
     create: true,
   }).close();
 
-  const target = "./home/import_test";
+  const target = "./home/.import_test";
   const baseDir = "mydot";
 
-  await runScript("import", tsWd, [
+  await runScript("add", tsWd, [
     target,
     baseDir,
   ]);
@@ -123,15 +123,19 @@ test(testSuite, "import", async () => {
   assert(Deno.lstatSync(targetPath).isSymlink);
 
   const targetRealPath = Deno.realPathSync(targetPath);
-  const targetDotPath = path.join(
-    getDdotPath(),
-    baseDir,
-    path.basename(target),
-  );
+  const targetDotPath = path.resolve(tsWd, "home/dotfiles/mydot/import_test");
+  assert(existsSync(targetDotPath));
   assertEquals(targetRealPath, targetDotPath);
+
+  await runScript("remove", tsWd, [
+    target,
+  ]);
+
+  assert(!existsSync(targetDotPath));
+  assert(!Deno.lstatSync(targetPath).isSymlink);
 });
 
-test(testSuite, "link", async () => {
+test(testSuite, "link/unlink", async () => {
   await runScript("link", tsWd, [
     "--name=laptop",
   ]);
@@ -151,4 +155,11 @@ test(testSuite, "link", async () => {
 
   assertEquals(testRealPath, path.resolve(testDotPath));
   assertEquals(test1RealPath, path.resolve(test1DotPath));
+
+  await runScript("unlink", tsWd, [
+    "--name=laptop",
+  ]);
+
+  assert(!existsSync(testHomePath));
+  assert(!existsSync(test1HomePath));
 });

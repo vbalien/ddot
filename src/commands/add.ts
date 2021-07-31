@@ -1,9 +1,10 @@
 import { Command, existsSync, path } from "../../deps.ts";
 import { getDdotPath, getHomePath } from "../get_ddot_path.ts";
 
-export class ImportCommand extends Command {
+export class AddCommand extends Command {
   constructor() {
     super();
+
     this.description("Add dotfile to ddot")
       .arguments("<target:string> [baseDir:string]")
       .action((_, target: string, baseDir = "common") => {
@@ -16,7 +17,10 @@ export class ImportCommand extends Command {
 
         Deno.mkdirSync(linkPath, { recursive: true });
 
-        const linkTarget = path.join(linkPath, path.basename(target));
+        const linkTarget = path.join(
+          linkPath,
+          path.basename(target).replace(/^\./, ""),
+        );
 
         Deno.renameSync(target, linkTarget);
         Deno.symlinkSync(linkTarget, target);
