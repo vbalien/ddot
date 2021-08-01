@@ -25,11 +25,7 @@ export abstract class BaseCommand extends Command {
           throw new Error("mapping.ts is not found!");
         }
 
-        if (configData instanceof Array) {
-          this.mappings.push(...configData);
-        } else {
-          this.mappings.push(configData);
-        }
+        this.setMappings(configData);
 
         const name = options.name;
         const platform: Platform = this.platform = options.platform ??
@@ -51,12 +47,24 @@ export abstract class BaseCommand extends Command {
           );
         }
 
-        if (found.extend) {
-          found = this.combineExtends(found);
-        }
-
         await this.ready(found);
       });
+  }
+
+  setMappings(configData: MappingConfig | MappingConfig[]) {
+    const mappings = [];
+    if (configData instanceof Array) {
+      mappings.push(...configData);
+    } else {
+      this.mappings.push(configData);
+    }
+
+    for (let mapping of mappings) {
+      if (mapping.extend) {
+        mapping = this.combineExtend(mappings, mapping);
+      }
+      this.mappings.push(mapping);
+    }
   }
 
   findMapping(hostname: string, platform: Platform) {
@@ -88,25 +96,24 @@ export abstract class BaseCommand extends Command {
   }
 
   findMappingByName(name: string): MappingConfig | undefined {
-    for (const config of this.mappings) {
-      if (config.name === name) {
-        return config;
-      }
-    }
+    return this.mappings.find((config) => config.name === name);
   }
 
-  combineExtends(config: MappingConfig): MappingConfig {
+  combineExtend(
+    mappings: MappingConfig[],
+    config: MappingConfig,
+  ): MappingConfig {
     let { extend: parentName, ...curr }: MappingConfig = config;
     const configs: MappingConfig[] = [curr];
     const result: MappingConfig = { name: "" };
 
     while (parentName) {
-      const found = this.findMappingByName(
-        parentName,
-      );
+      const found = mappings.find((config) => config.name === parentName);
 
       if (!found) {
-        throw new Error("Extends not found");
+        console.error(mappings);
+        console.error(parentName);
+        throw new Error("Extend not found");
       }
 
       const { extend: nextParentName, ...nextCurr } = found;

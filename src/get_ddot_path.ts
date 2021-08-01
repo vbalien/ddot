@@ -2,7 +2,7 @@ import { path } from "../deps.ts";
 
 export function getDdotPath() {
   const home = getHomePath();
-  return path.join(home, "dotfiles");
+  return path.resolve(home, "dotfiles");
 }
 
 export function getHomePath() {

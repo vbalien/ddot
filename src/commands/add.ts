@@ -28,9 +28,18 @@ export class AddCommand extends Command {
         console.info(`Move: "${target}" -> "${linkTarget}"`);
         console.info(`Link: "${target}" -> "${linkTarget}"`);
         console.info(
-          `Add following to link of mapping.ts :\n"${
-            path.relative(getHomePath(), path.resolve(target))
-          }": "${baseDir}/${linkTargetName}"`,
+          `Add following to link of mapping.ts :\n${
+            JSON.stringify(
+              {
+                [path.relative(getHomePath(), path.resolve(target))]: path.join(
+                  baseDir,
+                  linkTargetName,
+                ),
+              },
+              null,
+              2,
+            )
+          }`,
         );
       });
   }
