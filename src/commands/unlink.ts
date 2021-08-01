@@ -17,20 +17,17 @@ export class UnlinkCommand extends BaseCommand {
         const fromPath = path.join(getDdotPath(), from);
 
         if (!existsSync(targetPath)) {
-          console.info(`"${targetPath}" does not exist.`);
-          console.info("Skip");
+          console.info(`Info: "${targetPath}" does not exist.`);
           continue;
         }
 
         if (!Deno.lstatSync(targetPath).isSymlink) {
-          console.info(`"${targetPath}" does not symlink.`);
-          console.info("Skip");
+          console.info(`Info: "${targetPath}" is not symlink.`);
           continue;
         }
 
         if (path.resolve(fromPath) === path.resolve(targetPath)) {
-          console.info(`"${fromPath}" does not added.`);
-          console.info("Skip");
+          console.info(`Info: "${fromPath}" has not been added.`);
           continue;
         }
 

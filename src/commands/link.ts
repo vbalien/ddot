@@ -26,14 +26,22 @@ export class LinkCommand extends BaseCommand {
         }
 
         if (existsSync(targetPath)) {
-          console.log(
-            `"${targetPath}" does exist. move to "${targetPath +
+          if (
+            Deno.lstatSync(targetPath).isSymlink &&
+            Deno.realPathSync(targetPath) === path.resolve(fromPath)
+          ) {
+            console.info(`Info: '${targetPath}' already linked!`);
+            continue;
+          }
+
+          console.info(
+            `Info: "${targetPath}" already exist. move to "${targetPath +
               ".ddot.bak"}"`,
           );
           Deno.renameSync(targetPath, targetPath + ".ddot.bak");
         }
 
-        console.log(`Link: "${targetPath}" -> "${fromPath}"`);
+        console.info(`Link: "${targetPath}" -> "${fromPath}"`);
         Deno.symlinkSync(fromPath, targetPath);
       }
     }
