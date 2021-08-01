@@ -51,7 +51,7 @@ export abstract class BaseCommand extends Command {
           );
         }
 
-        if (found.extends) {
+        if (found.extend) {
           found = this.combineExtends(found);
         }
 
@@ -62,9 +62,9 @@ export abstract class BaseCommand extends Command {
   findMapping(hostname: string, platform: Platform) {
     let found: MappingConfig | null = null;
     for (const config of this.mappings) {
-      if (!config.guards) continue;
-      const configHostname = config.guards.hostname;
-      const configPlatform = config.guards.platform;
+      if (!config.guard) continue;
+      const configHostname = config.guard.hostname;
+      const configPlatform = config.guard.platform;
 
       if (
         (
@@ -96,7 +96,7 @@ export abstract class BaseCommand extends Command {
   }
 
   combineExtends(config: MappingConfig): MappingConfig {
-    let { extends: parentName, ...curr }: MappingConfig = config;
+    let { extend: parentName, ...curr }: MappingConfig = config;
     const configs: MappingConfig[] = [curr];
     const result: MappingConfig = { name: "" };
 
@@ -109,7 +109,7 @@ export abstract class BaseCommand extends Command {
         throw new Error("Extends not found");
       }
 
-      const { extends: nextParentName, ...nextCurr } = found;
+      const { extend: nextParentName, ...nextCurr } = found;
       parentName = nextParentName;
       curr = nextCurr;
       configs.push(curr);

@@ -17,9 +17,10 @@ export class AddCommand extends Command {
 
         Deno.mkdirSync(linkPath, { recursive: true });
 
+        const linkTargetName = path.basename(target).replace(/^\./, "");
         const linkTarget = path.join(
           linkPath,
-          path.basename(target).replace(/^\./, ""),
+          linkTargetName,
         );
 
         Deno.renameSync(target, linkTarget);
@@ -29,7 +30,7 @@ export class AddCommand extends Command {
         console.info(
           `Add following to link of mapping.ts :\n"${
             path.relative(getHomePath(), path.resolve(target))
-          }": "${baseDir}/${path.basename(target)}"`,
+          }": "${baseDir}/${linkTargetName}"`,
         );
       });
   }

@@ -71,7 +71,7 @@ const testSuite = new TestSuite({
   },
 });
 
-test(testSuite, "guards", async () => {
+test(testSuite, "guard", async () => {
   let output: string;
   output = await runScript("run", tsWd, [
     "--platform=darwin",
@@ -94,7 +94,7 @@ test(testSuite, "scripts", async () => {
   assertStringIncludes(output.trim(), "works!");
 });
 
-test(testSuite, "extends", async () => {
+test(testSuite, "extend", async () => {
   const output = await runScript("run", tsWd, [
     "--name=desktop",
     "--platform=darwin",

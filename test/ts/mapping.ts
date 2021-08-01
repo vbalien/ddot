@@ -4,7 +4,7 @@ export default <MappingConfig[]> [
   {
     name: "home",
 
-    guards: {
+    guard: {
       hostname: "home",
       platform: "windows",
     },
@@ -23,7 +23,7 @@ export default <MappingConfig[]> [
   {
     name: "laptop",
 
-    guards: {
+    guard: {
       hostname: "laptop",
       platform: ["darwin", "windows"],
     },
@@ -42,7 +42,7 @@ export default <MappingConfig[]> [
   {
     name: "server",
 
-    guards: {
+    guard: {
       hostname: "server",
       platform: "linux",
     },
@@ -60,7 +60,7 @@ export default <MappingConfig[]> [
 
   {
     name: "desktop",
-    extends: "server",
+    extend: "server",
 
     scripts: ["echo desktop"],
   },
