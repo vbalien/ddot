@@ -122,9 +122,10 @@ export abstract class BaseCommand extends Command {
       configs.push(curr);
     }
 
-    for (const config of configs) {
-      mergeWith(result, config, (obj: unknown, src: unknown) => {
+    for (const config of configs.reverse()) {
+      mergeWith(result, config, (obj: unknown, src: unknown, key: string) => {
         if (obj instanceof Array && src instanceof Array) {
+          if (key === "hostname") return src;
           return src.concat(obj);
         }
       });

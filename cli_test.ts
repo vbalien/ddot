@@ -101,7 +101,7 @@ test(testSuite, "extend", async () => {
   ]);
   assertMatch(
     output.trim(),
-    /^Run: .*\ndesktop darwin\nRun: .*\nworks!\nRun: .*\ndesktop$/,
+    /^Run: .*\ndesktop\nRun: .*\ndesktop darwin\nRun: .*\nworks!$/,
   );
 });
 
